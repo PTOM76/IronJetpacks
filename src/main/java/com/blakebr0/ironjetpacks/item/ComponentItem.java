@@ -2,7 +2,6 @@ package com.blakebr0.ironjetpacks.item;
 
 import com.blakebr0.ironjetpacks.registry.Jetpack;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.StringUtils;
@@ -24,7 +23,7 @@ public class ComponentItem extends Item implements Colored, Enableable {
     @Override
     public Component getName(ItemStack stack) {
         String name = StringUtils.capitalize(this.name.replace(" ", "_"));
-        return new TranslatableComponent("item.iron-jetpacks." + this.type, name);
+        return Component.translatable("item.iron-jetpacks." + this.type, name);
     }
     
     @Override

@@ -27,6 +27,6 @@
     "fabric": "*",
     "architectury": "*",
     "autoconfig1u": "*",
-    "minecraft": ">=1.18"
+    "minecraft": ">=1.19"
   }
 }

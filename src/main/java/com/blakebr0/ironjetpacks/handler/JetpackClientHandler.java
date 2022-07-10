@@ -10,15 +10,15 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.ParticleStatus;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import java.util.Random;
 
 @Environment(EnvType.CLIENT)
 public class JetpackClientHandler {
-    private static final Random RANDOM = new Random();
+    private static final RandomSource RANDOM = RandomSource.create();
     
     public static void onClientTick(Minecraft client) {
         Minecraft mc = Minecraft.getInstance();
@@ -27,7 +27,7 @@ public class JetpackClientHandler {
                 ItemStack chest = mc.player.getItemBySlot(EquipmentSlot.CHEST);
                 Item item = chest.getItem();
                 if (!chest.isEmpty() && item instanceof JetpackItem && JetpackUtils.isFlying(mc.player)) {
-                    if (ModConfigs.getClient().general.enableJetpackParticles && (mc.options.particles != ParticleStatus.MINIMAL)) {
+                    if (ModConfigs.getClient().general.enableJetpackParticles && (mc.options.particles().get() != ParticleStatus.MINIMAL)) {
                         Jetpack jetpack = ((JetpackItem) item).getJetpack();
                         Vec3 playerPos = mc.player.position().add(0, 1.5, 0);
                         
@@ -48,7 +48,7 @@ public class JetpackClientHandler {
                     }
                     
                     if (ModConfigs.getClient().general.enableJetpackSounds && !JetpackSound.playing(mc.player.getId())) {
-                        mc.getSoundManager().play(new JetpackSound(mc.player));
+                        mc.getSoundManager().play(new JetpackSound(mc.player, RANDOM));
                     }
                 }
             }

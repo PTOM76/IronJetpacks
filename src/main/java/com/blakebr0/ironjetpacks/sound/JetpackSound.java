@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,8 +17,8 @@ public class JetpackSound extends AbstractTickableSoundInstance {
     private static final Map<Integer, JetpackSound> PLAYING_FOR = Collections.synchronizedMap(new HashMap<>());
     private final Player player;
     
-    public JetpackSound(Player player) {
-        super(ModSounds.JETPACK.get(), SoundSource.PLAYERS);
+    public JetpackSound(Player player, RandomSource random) {
+        super(ModSounds.JETPACK.get(), SoundSource.PLAYERS, random);
         this.player = player;
         this.looping = true;
         PLAYING_FOR.put(player.getId(), this);

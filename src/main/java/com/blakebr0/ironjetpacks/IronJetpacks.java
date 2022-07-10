@@ -13,7 +13,7 @@ import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.event.server.ServerStopCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -49,7 +49,7 @@ public class IronJetpacks implements ModInitializer {
         }
         FtlCompat.init();
         
-        ServerStopCallback.EVENT.register(server -> InputHandler.clear());
+        ServerLifecycleEvents.SERVER_STOPPING.register(server -> InputHandler.clear());
         PlayerEvent.CHANGE_DIMENSION.register((player, oldLevel, newLevel) -> InputHandler.onChangeDimension(player));
         PlayerEvent.PLAYER_QUIT.register(InputHandler::onLogout);
     }

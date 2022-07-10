@@ -18,8 +18,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -42,7 +40,7 @@ public class JetpackItem extends DyeableArmorItem implements Colored, DyeableLea
     @Override
     public Component getName(ItemStack stack) {
         String name = StringUtils.capitalize(this.jetpack.name.replace(" ", "_"));
-        return new TranslatableComponent("item.iron-jetpacks.jetpack", name);
+        return Component.translatable("item.iron-jetpacks.jetpack", name);
     }
     
     /*
@@ -151,9 +149,9 @@ public class JetpackItem extends DyeableArmorItem implements Colored, DyeableLea
     public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag advanced) {
         if (!this.jetpack.creative) {
             EnergyStorage energy = EnergyStorage.ITEM.find(stack, ContainerItemContext.withInitial(stack));
-            tooltip.add(new TextComponent(UnitUtils.formatEnergy(energy.getAmount(), null)).withStyle(ChatFormatting.GRAY).append(" / ").append(new TextComponent(UnitUtils.formatEnergy(jetpack.capacity, null))));
+            tooltip.add(Component.literal(UnitUtils.formatEnergy(energy.getAmount(), null)).withStyle(ChatFormatting.GRAY).append(" / ").append(Component.literal(UnitUtils.formatEnergy(jetpack.capacity, null))));
         } else {
-            tooltip.add(new TextComponent("-1 E / ").withStyle(ChatFormatting.GRAY).append(ModTooltips.INFINITE.color(ChatFormatting.GRAY)).append(" E"));
+            tooltip.add(Component.literal("-1 E / ").withStyle(ChatFormatting.GRAY).append(ModTooltips.INFINITE.color(ChatFormatting.GRAY)).append(" E"));
         }
         
         Component tier = ModTooltips.TIER.args(this.jetpack.creative ? "Creative" : this.jetpack.tier).withStyle(this.jetpack.rarity.color);
@@ -163,9 +161,9 @@ public class JetpackItem extends DyeableArmorItem implements Colored, DyeableLea
         tooltip.add(ModTooltips.STATE_TOOLTIP_LAYOUT.args(tier, engine, hover));
         
         if (ModConfigs.getClient().general.enableAdvancedInfoTooltips) {
-            tooltip.add(new TextComponent(""));
+            tooltip.add(Component.literal(""));
             if (!Screen.hasShiftDown()) {
-                tooltip.add(new TranslatableComponent("tooltip.iron-jetpacks.hold_shift_for_info"));
+                tooltip.add(Component.translatable("tooltip.iron-jetpacks.hold_shift_for_info"));
             } else {
                 tooltip.add(ModTooltips.FUEL_USAGE.args(this.jetpack.usage + " E/t"));
                 tooltip.add(ModTooltips.VERTICAL_SPEED.args(this.jetpack.speedVert));
@@ -181,7 +179,7 @@ public class JetpackItem extends DyeableArmorItem implements Colored, DyeableLea
     
     @Override
     public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> stacks) {
-        if (this.allowdedIn(group)) {
+        if (this.allowedIn(group)) {
             stacks.add(new ItemStack(this));
             
             if (!jetpack.creative) {
